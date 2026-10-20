@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Transformation OS — Premium Personal Operating System</title>
+  <meta name="description" content="A mobile-first personal transformation dashboard for working professionals. Fitness, nutrition, grooming, AI/ML study, reading, savings, and accountability.">
+  <meta name="theme-color" content="#0b0e14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons via CDN with local SVG fallback built into app.js -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-user">
+        <div class="user-avatar" id="header-avatar" title="Personal OS">AB</div>
+        <div class="user-meta">
+          <span class="greeting-text" id="header-greeting">Good evening,</span>
+          <span class="greeting-name" id="header-username">Arnab</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="btn-open-calendar" title="Calendar View" aria-label="Open Calendar">
+          <i data-lucide="calendar"></i>
+        </button>
+        <button class="icon-btn" id="btn-quick-settings" title="Settings" aria-label="Open Settings">
+          <i data-lucide="settings"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Date Navigator Bar -->
+    <section class="date-navigator" aria-label="Date Navigation">
+      <button class="date-nav-btn" id="btn-prev-day" title="Previous Day" aria-label="Previous Day">
+        <i data-lucide="chevron-left"></i>
+      </button>
+      <div class="date-display-group" id="date-display-trigger" title="Tap to select date">
+        <span class="date-day-name" id="display-day-name">
+          <i data-lucide="sparkles" style="width:12px;height:12px;"></i>
+          <span id="day-name-text">TODAY</span>
+        </span>
+        <span class="date-full-text" id="display-date-text">Oct 21, 2026</span>
+        <input type="date" id="hidden-date-picker" aria-label="Select Date">
+      </div>
+      <div class="date-quick-actions">
+        <button class="today-btn hidden" id="btn-go-today" title="Jump to Today">Today</button>
+        <button class="date-nav-btn" id="btn-next-day" title="Next Day" aria-label="Next Day">
+          <i data-lucide="chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Clock and Sub-info Bar -->
+    <div class="clock-subbar">
+      <span class="live-clock" id="live-clock-display">00:00:00 AM</span>
+      <span class="week-badge" id="week-badge-display">Week 43 · Oct 2026</span>
+    </div>
+
+    <!-- Quick Action Chips for Instant Deep-Link Access -->
+    <div class="quick-chips-scroll" role="toolbar" aria-label="Quick Actions">
+      <button class="quick-chip" id="chip-workout"><i data-lucide="dumbbell"></i> Workout</button>
+      <button class="quick-chip" id="chip-food"><i data-lucide="utensils"></i> Meals</button>
+      <button class="quick-chip" id="chip-study"><i data-lucide="terminal"></i> AI/ML Study</button>
+      <button class="quick-chip" id="chip-reading"><i data-lucide="book-open"></i> Zero to One</button>
+      <button class="quick-chip" id="chip-savings"><i data-lucide="indian-rupee"></i> Savings</button>
+      <button class="quick-chip" id="chip-grocery"><i data-lucide="shopping-cart"></i> Grocery</button>
+      <button class="quick-chip" id="chip-missed"><i data-lucide="alert-triangle"></i> Review</button>
+    </div>
+
+    <!-- Main Scrollable Content Area -->
+    <main class="main-content">
+
+      <!-- ===================================================================
+           VIEW 1: HOME DASHBOARD
+           =================================================================== -->
+      <section class="view-section active-view" id="view-home">
+        
+        <!-- Yesterday's Missed Task Recovery Banner (Dynamic) -->
+        <div id="recovery-banner-container"></div>
+
+        <!-- Review Needed Banner for Past Days or Finalization -->
+        <div id="day-review-banner-container"></div>
+
+        <!-- Daily Progress Hero Card -->
+        <div class="card progress-hero-card">
+          <div class="progress-hero-content">
+            <div class="progress-ring-container">
+              <svg class="progress-ring-svg" viewBox="0 0 96 96">
+                <circle class="progress-ring-bg" cx="48" cy="48" r="40"></circle>
+                <circle class="progress-ring-fill" id="home-ring-fill" cx="48" cy="48" r="40"></circle>
+              </svg>
+              <div class="progress-ring-center">
+                <span class="progress-percentage" id="home-ring-pct">0%</span>
+                <span class="progress-count-label" id="home-ring-count">0/12</span>
+              </div>
+            </div>
+            <div class="progress-hero-text">
+              <h2 class="progress-hero-heading" id="home-hero-heading">Focus & Execute</h2>
+              <p class="progress-hero-quote" id="home-hero-quote">Discipline turns ambitions into identity. 12:30 PM - 10:00 PM shift requires intentional morning habits.</p>
+              <button class="hero-cta-btn" id="btn-hero-cta">
+                <i data-lucide="play-circle"></i> <span id="hero-cta-text">Continue Routine</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4-Pillar Status Quick Glance Grid -->
+        <div class="pillar-stats-grid">
+          <div class="pillar-stat-box" id="box-pillar-workout">
+            <i data-lucide="dumbbell" class="text-blue"></i>
+            <span class="pillar-stat-val" id="pillar-workout-val">Pending</span>
+            <span class="pillar-stat-lbl">Gym</span>
+          </div>
+          <div class="pillar-stat-box" id="box-pillar-protein">
+            <i data-lucide="salad" class="text-emerald"></i>
+            <span class="pillar-stat-val" id="pillar-protein-val">0 / 120g</span>
+            <span class="pillar-stat-lbl">Protein</span>
+          </div>
+          <div class="pillar-stat-box" id="box-pillar-study">
+            <i data-lucide="terminal" class="text-amber"></i>
+            <span class="pillar-stat-val" id="pillar-study-val">0 min</span>
+            <span class="pillar-stat-lbl">AI/ML</span>
+          </div>
+          <div class="pillar-stat-box" id="box-pillar-savings">
+            <i data-lucide="indian-rupee" class="text-emerald"></i>
+            <span class="pillar-stat-val" id="pillar-savings-val">₹0</span>
+            <span class="pillar-stat-lbl">Saved</span>
+          </div>
+        </div>
+
+        <!-- Today's Priorities Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon emerald"><i data-lucide="list-checks"></i></div>
+              <div>
+                <h3 class="card-title">Next Scheduled Priorities</h3>
+                <span class="card-subtitle">Aligned with 12:30–10:00 PM work day</span>
+              </div>
+            </div>
+            <button class="card-action-btn" id="btn-view-full-routine">View Timeline <i data-lucide="arrow-right"></i></button>
+          </div>
+          <div class="priority-list" id="home-priorities-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Daily Core Habits Checklist -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon emerald"><i data-lucide="check-circle-2"></i></div>
+              <div>
+                <h3 class="card-title">Daily Habit Checklist</h3>
+                <span class="card-subtitle">Tap checkbox to mark complete</span>
+              </div>
+            </div>
+            <button class="card-action-btn" id="btn-finalize-day-prompt"><i data-lucide="check-check"></i> Finalize Day</button>
+          </div>
+          <div class="habit-list" id="home-habit-list">
+            <!-- Dynamically populated from daily log schema -->
+          </div>
+        </div>
+
+        <!-- Workout Summary Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon blue"><i data-lucide="dumbbell"></i></div>
+              <div>
+                <h3 class="card-title" id="home-workout-title">Monday — Upper Body A</h3>
+                <span class="card-subtitle" id="home-workout-subtitle">6 planned exercises · 8:35–9:35 AM</span>
+              </div>
+            </div>
+            <button class="primary-btn" id="btn-open-workout-modal" style="padding:6px 12px; font-size:0.75rem; min-height:36px;">
+              <i data-lucide="edit-3"></i> Log Workout
+            </button>
+          </div>
+          <div id="home-workout-preview">
+            <!-- Exercise list preview -->
+          </div>
+        </div>
+
+        <!-- Daily Savings Tracker Card -->
+        <div class="card savings-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon emerald"><i data-lucide="indian-rupee"></i></div>
+              <div>
+                <h3 class="card-title">Daily Savings Tracker</h3>
+                <span class="card-subtitle">Daily Target: ₹200 · Consistency Habit</span>
+              </div>
+            </div>
+            <span class="workout-header-badge" id="savings-status-badge">Pending</span>
+          </div>
+
+          <div class="savings-stats-row">
+            <div class="savings-stat-cell">
+              <div class="savings-stat-num" id="stat-savings-today">₹0</div>
+              <div class="savings-stat-label">Today</div>
+            </div>
+            <div class="savings-stat-cell">
+              <div class="savings-stat-num" id="stat-savings-week">₹0</div>
+              <div class="savings-stat-label">This Week</div>
+            </div>
+            <div class="savings-stat-cell">
+              <div class="savings-stat-num" id="stat-savings-month">₹0</div>
+              <div class="savings-stat-label">This Month</div>
+            </div>
+          </div>
+
+          <div class="savings-entry-row">
+            <input type="number" id="input-daily-savings" class="savings-amount-input" value="200" placeholder="Amount (₹)" min="0" step="10">
+            <button class="savings-save-btn" id="btn-save-money-action">
+              <i data-lucide="check"></i> Confirm ₹ Saved
+            </button>
+          </div>
+
+          <div class="quick-amount-buttons">
+            <button class="quick-amt-chip" data-amt="50">+ ₹50</button>
+            <button class="quick-amt-chip" data-amt="100">+ ₹100</button>
+            <button class="quick-amt-chip" data-amt="200">+ ₹200</button>
+            <button class="quick-amt-chip" data-amt="500">+ ₹500</button>
+          </div>
+
+          <div style="margin-top:10px;">
+            <input type="text" id="input-savings-note" class="form-input" style="font-size:0.75rem; height:34px;" placeholder="Optional savings note (e.g. Set aside to SIP / emergency fund)">
+          </div>
+        </div>
+
+        <!-- Study & Reading Snapshot Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon amber"><i data-lucide="book-marked"></i></div>
+              <div>
+                <h3 class="card-title">Skill & Reading Habits</h3>
+                <span class="card-subtitle">AI/ML Focus & Zero to One</span>
+              </div>
+            </div>
+          </div>
+          
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <!-- AI/ML box -->
+            <div class="macro-box" style="cursor:pointer;" id="box-quick-study">
+              <div class="macro-header">
+                <span class="macro-name">AI/ML Session</span>
+                <i data-lucide="terminal" class="text-amber" style="width:16px;height:16px;"></i>
+              </div>
+              <div style="font-size:0.85rem; font-weight:700;" id="quick-study-topic">No topic logged</div>
+              <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;" id="quick-study-time">0 min studied</div>
+              <button class="secondary-btn w-full mt-2" style="min-height:34px; font-size:0.72rem; padding:4px 8px;">
+                <i data-lucide="timer"></i> Open Study Tracker
+              </button>
+            </div>
+
+            <!-- Reading box -->
+            <div class="macro-box" style="cursor:pointer;" id="box-quick-reading">
+              <div class="macro-header">
+                <span class="macro-name">Zero to One</span>
+                <i data-lucide="book-open" class="text-emerald" style="width:16px;height:16px;"></i>
+              </div>
+              <div style="font-size:0.85rem; font-weight:700;" id="quick-reading-pages">Page: Resume</div>
+              <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;" id="quick-reading-target">Target: 30 mins</div>
+              <button class="secondary-btn w-full mt-2" style="min-height:34px; font-size:0.72rem; padding:4px 8px;">
+                <i data-lucide="bookmark"></i> Open Reading Log
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ===================================================================
+           VIEW 2: ROUTINE & SCHEDULE
+           =================================================================== -->
+      <section class="view-section" id="view-routine">
+        
+        <!-- Sleep Conflict Warning Banner -->
+        <div class="sleep-warning-card" id="routine-sleep-warning">
+          <i data-lucide="alert-circle" class="text-amber" style="width:24px;height:24px;flex-shrink:0;"></i>
+          <div class="sleep-warning-text">
+            <strong>Late Night Sleep Alert</strong>
+            <p>Your office hours are 12:30 PM–10:00 PM. Studying and reading after 12:00 AM may reduce sleep below the recommended 7–8 hours before 8:00 AM wake-up. Consider moving study sessions to the morning (10:00 AM) or weekend mornings.</p>
+          </div>
+        </div>
+
+        <!-- Routine Top Summary -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon emerald"><i data-lucide="clock"></i></div>
+              <div>
+                <h3 class="card-title">Daily Operating Schedule</h3>
+                <span class="card-subtitle">Optimized for 12:30–10:00 PM Office Hours</span>
+              </div>
+            </div>
+            <button class="card-action-btn" id="btn-custom-routine-item"><i data-lucide="plus"></i> Add Item</button>
+          </div>
+          <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.4;">
+            Mark items complete as you progress through the day. Tasks can be completed, skipped with an accountability reason, or rescheduled.
+          </p>
+        </div>
+
+        <!-- Vertical Schedule Timeline -->
+        <div class="timeline" id="routine-timeline-container">
+          <!-- Populated by JS -->
+        </div>
+
+      </section>
+
+      <!-- ===================================================================
+           VIEW 3: FOOD & GROCERY
+           =================================================================== -->
+      <section class="view-section" id="view-food">
+        
+        <!-- Subnav Tabs: Meals vs Sunday Grocery & Prep -->
+        <div class="subnav-tabs">
+          <button class="subnav-tab active" id="tab-btn-meals">Today's Meals</button>
+          <button class="subnav-tab" id="tab-btn-grocery">Sunday Grocery & Meal Prep</button>
+        </div>
+
+        <!-- SUBVIEW A: TODAY'S MEALS -->
+        <div id="subview-meals">
+          
+          <!-- Nutrition Estimate Bar & Water Intake -->
+          <div class="nutrition-bars-grid">
+            <div class="macro-box">
+              <div class="macro-header">
+                <span class="macro-name">Est. Protein</span>
+                <span class="macro-val" id="macro-protein-display">0 / 120g</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="protein-progress-bar" style="width:0%;"></div>
+              </div>
+              <span class="estimated-badge mt-2" style="display:block;">*Approximate nutritional estimate</span>
+            </div>
+
+            <div class="macro-box">
+              <div class="macro-header">
+                <span class="macro-name">Est. Calories</span>
+                <span class="macro-val" id="macro-calories-display">0 kcal</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill amber" id="calories-progress-bar" style="width:0%;"></div>
+              </div>
+              <span class="estimated-badge mt-2" style="display:block;">Target: ~2,200–2,400 kcal</span>
+            </div>
+          </div>
+
+          <!-- Water Intake Tracker -->
+          <div class="water-tracker-card">
+            <div class="card-header" style="margin-bottom:6px;">
+              <div class="card-title-group">
+                <i data-lucide="droplet" class="text-blue"></i>
+                <h4 style="font-size:0.88rem; font-weight:700;">Hydration Tracker</h4>
+              </div>
+              <span style="font-size:0.75rem; font-weight:700; color:var(--accent-blue);" id="water-count-display">0 / 8 Glasses (0 L)</span>
+            </div>
+            <div class="water-controls">
+              <div class="water-glasses-row" id="water-glasses-container">
+                <!-- 8 glass buttons -->
+              </div>
+              <button class="secondary-btn" id="btn-add-water" style="padding:6px 10px; font-size:0.75rem; min-height:36px;">
+                <i data-lucide="plus"></i> 250ml
+              </button>
+            </div>
+          </div>
+
+          <!-- Daily Meal Plan Cards -->
+          <div class="card-header mt-4">
+            <div class="card-title-group">
+              <div class="card-icon emerald"><i data-lucide="utensils"></i></div>
+              <div>
+                <h3 class="card-title" id="food-plan-day-title">Monday Meal Plan</h3>
+                <span class="card-subtitle">High protein, sustained energy for 10 PM shift</span>
+              </div>
+            </div>
+            <button class="card-action-btn" id="btn-add-custom-food"><i data-lucide="plus"></i> Custom Item</button>
+          </div>
+
+          <div class="meal-list" id="meal-cards-container">
+            <!-- Meal cards populated by JS -->
+          </div>
+
+          <!-- Dietary Preferences & Notes -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <div class="card-title-group">
+                <i data-lucide="shield-alert" class="text-amber"></i>
+                <h4 style="font-size:0.85rem; font-weight:700;">Dietary Notes & Allergies</h4>
+              </div>
+            </div>
+            <textarea id="food-preferences-notes" class="form-textarea" placeholder="Add personal preferences, food allergies, or preferred substitutions (e.g. Soya chunks substitution for chicken on fasting days)..."></textarea>
+            <button class="secondary-btn w-full mt-2" id="btn-save-diet-notes" style="font-size:0.75rem; min-height:34px;">
+              Save Preferences
+            </button>
+          </div>
+
+        </div>
+
+        <!-- SUBVIEW B: SUNDAY GROCERY & MEAL PREP -->
+        <div id="subview-grocery" class="hidden">
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <div class="card-icon emerald"><i data-lucide="shopping-bag"></i></div>
+                <div>
+                  <h3 class="card-title">Weekly Sunday Grocery List</h3>
+                  <span class="card-subtitle" id="grocery-week-subtitle">Week of Monday–Sunday</span>
+                </div>
+              </div>
+              <button class="card-action-btn" id="btn-add-grocery-item"><i data-lucide="plus"></i> Add Item</button>
+            </div>
+
+            <!-- Spending Summary -->
+            <div class="pillar-stats-grid mt-2">
+              <div class="pillar-stat-box">
+                <span class="pillar-stat-val text-emerald" id="grocery-stat-bought">0 / 14</span>
+                <span class="pillar-stat-lbl">Purchased</span>
+              </div>
+              <div class="pillar-stat-box">
+                <span class="pillar-stat-val text-blue" id="grocery-stat-home">0</span>
+                <span class="pillar-stat-lbl">At Home</span>
+              </div>
+              <div class="pillar-stat-box">
+                <span class="pillar-stat-val text-amber" id="grocery-stat-est-spend">₹0</span>
+                <span class="pillar-stat-lbl">Est. Spend</span>
+              </div>
+              <div class="pillar-stat-box">
+                <span class="pillar-stat-val text-emerald" id="grocery-stat-act-spend">₹0</span>
+                <span class="pillar-stat-lbl">Actual Spend</span>
+              </div>
+            </div>
+
+            <p style="font-size:0.72rem; color:var(--text-muted); margin-top:8px;">
+              Tip: Tap the "Have" badge if already stocked at home. Purchases can be made on Sunday or any other day without losing the week's list.
+            </p>
+          </div>
+
+          <!-- Categorized Grocery Items -->
+          <div id="grocery-categorized-container">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Sunday Meal Preparation Checklist -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <div class="card-title-group">
+                <div class="card-icon amber"><i data-lucide="chef-hat"></i></div>
+                <div>
+                  <h3 class="card-title">Sunday Meal Prep Checklist</h3>
+                  <span class="card-subtitle">Set up your weekday nutrition success</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="habit-list" id="meal-prep-checklist">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ===================================================================
+           VIEW 4: PROGRESS & ANALYTICS
+           =================================================================== -->
+      <section class="view-section" id="view-progress">
+        
+        <!-- Date Range Filter Chips -->
+        <div class="filter-chips-row" role="tablist">
+          <button class="filter-chip-btn active" data-filter="7days">Last 7 Days</button>
+          <button class="filter-chip-btn" data-filter="30days">Last 30 Days</button>
+          <button class="filter-chip-btn" data-filter="month">This Month</button>
+          <button class="filter-chip-btn" data-filter="custom">Custom Range</button>
+        </div>
+
+        <div id="custom-range-inputs" class="card hidden" style="padding:10px 14px; margin-bottom:12px;">
+          <div style="display:flex; gap:8px; align-items:center;">
+            <div class="flex-1">
+              <label class="form-label" style="font-size:0.65rem;">From:</label>
+              <input type="date" id="custom-start-date" class="form-input" style="height:36px; font-size:0.78rem;">
+            </div>
+            <div class="flex-1">
+              <label class="form-label" style="font-size:0.65rem;">To:</label>
+              <input type="date" id="custom-end-date" class="form-input" style="height:36px; font-size:0.78rem;">
+            </div>
+            <button class="primary-btn" id="btn-apply-custom-range" style="min-height:36px; margin-top:16px; padding:0 12px; font-size:0.75rem;">Apply</button>
+          </div>
+        </div>
+
+        <!-- Weekly Executive Summary Card -->
+        <div class="summary-quote-card">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
+            <i data-lucide="sparkles" class="text-emerald" style="width:16px;height:16px;"></i>
+            <span style="font-size:0.75rem; font-weight:700; color:var(--accent-emerald); text-transform:uppercase;">Verified Performance Summary</span>
+          </div>
+          <p id="analytics-executive-summary">
+            Loading performance analytics based on recorded logs...
+          </p>
+        </div>
+
+        <!-- Key Analytics Metric Grid -->
+        <div class="stats-summary-grid">
+          <div class="stats-card-item">
+            <div class="stats-card-val text-emerald" id="stat-routine-rate">0%</div>
+            <div class="stats-card-label">Routine Completion</div>
+          </div>
+          <div class="stats-card-item">
+            <div class="stats-card-val text-blue" id="stat-workout-consistency">0%</div>
+            <div class="stats-card-label">Workout Consistency*</div>
+          </div>
+          <div class="stats-card-item">
+            <div class="stats-card-val text-amber" id="stat-meals-eaten">0</div>
+            <div class="stats-card-label">Meals Logged</div>
+          </div>
+          <div class="stats-card-item">
+            <div class="stats-card-val text-emerald" id="stat-savings-total">₹0</div>
+            <div class="stats-card-label">Savings Recorded</div>
+          </div>
+          <div class="stats-card-item">
+            <div class="stats-card-val text-blue" id="stat-study-hours">0 hrs</div>
+            <div class="stats-card-label">AI/ML Study Time</div>
+          </div>
+          <div class="stats-card-item">
+            <div class="stats-card-val text-emerald" id="stat-reading-pages">0 pgs</div>
+            <div class="stats-card-label">Zero to One Reading</div>
+          </div>
+          <div class="stats-card-item">
+            <div class="stats-card-val text-amber" id="stat-habit-streak">0 days</div>
+            <div class="stats-card-label">Active Streak</div>
+          </div>
+          <div class="stats-card-item">
+            <div class="stats-card-val text-rose" id="stat-missed-recovered">0 / 0</div>
+            <div class="stats-card-label">Missed / Recovered</div>
+          </div>
+        </div>
+
+        <p style="font-size:0.68rem; color:var(--text-muted); margin-bottom:12px; font-style:italic;">
+          *Excludes scheduled recovery and rest days. Future dates and incomplete days are not counted toward completion until finalized.
+        </p>
+
+        <!-- Chart 1: Daily Routine Completion Trend -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <i data-lucide="trending-up" class="text-emerald"></i>
+              <h4 style="font-size:0.85rem; font-weight:700;">Routine Completion Trend (%)</h4>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="chart-completion" class="chart-canvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Daily Savings Chart -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <i data-lucide="bar-chart-3" class="text-blue"></i>
+              <h4 style="font-size:0.85rem; font-weight:700;">Daily Savings vs ₹200 Target</h4>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="chart-savings" class="chart-canvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Missed Tasks Accountability Audit Log -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <i data-lucide="clipboard-list" class="text-amber"></i>
+              <div>
+                <h4 style="font-size:0.85rem; font-weight:700;">Missed Tasks & Accountability Log</h4>
+                <span class="card-subtitle">Transparent record of setbacks & recovery</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="analytics-missed-log-container">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ===================================================================
+           VIEW 5: SETTINGS & BACKUP
+           =================================================================== -->
+      <section class="view-section" id="view-settings">
+        
+        <!-- User Profile & Greeting -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon emerald"><i data-lucide="user"></i></div>
+              <div>
+                <h3 class="card-title">User Profile & Greeting</h3>
+                <span class="card-subtitle">Personalize your dashboard header</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-username">Display Name</label>
+            <input type="text" id="setting-username" class="form-input" value="Arnab">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="setting-avatar-initials">Avatar Initials</label>
+            <input type="text" id="setting-avatar-initials" class="form-input" maxlength="3" value="AB">
+          </div>
+          <button class="primary-btn w-full" id="btn-save-profile">Save Profile</button>
+        </div>
+
+        <!-- Schedule Configuration -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon blue"><i data-lucide="clock"></i></div>
+              <div>
+                <h3 class="card-title">Shift & Routine Timings</h3>
+                <span class="card-subtitle">Configure your standard weekday timings</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-wakeup-time">Wake Up Time</label>
+            <input type="time" id="setting-wakeup-time" class="form-input" value="08:00">
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label class="form-label" for="setting-office-start">Office Shift Start</label>
+              <input type="time" id="setting-office-start" class="form-input" value="12:30">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="setting-office-end">Office Shift End</label>
+              <input type="time" id="setting-office-end" class="form-input" value="22:00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="setting-study-time">Planned AI/ML Study Time</label>
+            <input type="time" id="setting-study-time" class="form-input" value="00:00">
+          </div>
+          <button class="primary-btn w-full" id="btn-save-schedule-settings">Save Schedule</button>
+        </div>
+
+        <!-- Targets & Preferences -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon amber"><i data-lucide="target"></i></div>
+              <div>
+                <h3 class="card-title">Daily Habits & Health Targets</h3>
+                <span class="card-subtitle">Adjust daily goals</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label class="form-label" for="setting-savings-target">Savings Target (₹)</label>
+              <input type="number" id="setting-savings-target" class="form-input" value="200" step="50">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="setting-protein-target">Protein Target (g)</label>
+              <input type="number" id="setting-protein-target" class="form-input" value="120" step="5">
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label class="form-label" for="setting-study-target">Study Target (mins)</label>
+              <input type="number" id="setting-study-target" class="form-input" value="60" step="15">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="setting-reading-target">Reading Target (mins)</label>
+              <input type="number" id="setting-reading-target" class="form-input" value="30" step="5">
+            </div>
+          </div>
+          <button class="primary-btn w-full" id="btn-save-targets">Save Targets</button>
+        </div>
+
+        <!-- Data Management & Backups -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <div class="card-icon emerald"><i data-lucide="database"></i></div>
+              <div>
+                <h3 class="card-title">Data Backup & Restore</h3>
+                <span class="card-subtitle">Single-device local storage persistence</span>
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size:0.75rem; color:var(--text-secondary); line-height:1.4; margin-bottom:12px;">
+            All your data, logs, and evidence photos are stored strictly locally in your browser's LocalStorage and IndexedDB. Nothing is ever sent to a remote server. Export regular JSON backups to preserve your journey.
+          </p>
+
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <button class="primary-btn w-full" id="btn-export-json">
+              <i data-lucide="download"></i> Export All Application Data (JSON)
+            </button>
+            
+            <label class="secondary-btn w-full" style="cursor:pointer;" for="input-import-file">
+              <i data-lucide="upload"></i> Restore from JSON Backup
+            </label>
+            <input type="file" id="input-import-file" accept=".json,application/json" class="hidden">
+
+            <button class="danger-btn w-full mt-2" id="btn-reset-data">
+              <i data-lucide="trash-2"></i> Reset All Data
+            </button>
+          </div>
+
+          <div style="margin-top:14px; padding-top:10px; border-top:1px solid var(--border-subtle); font-size:0.72rem; color:var(--text-muted);" id="storage-diagnostics">
+            LocalStorage: Calculating... | IndexedDB: Ready
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Fixed Bottom Navigation Bar -->
+    <nav class="bottom-nav" role="navigation" aria-label="Main Navigation">
+      <button class="nav-tab-btn active" data-view="home" aria-label="Home Dashboard">
+        <i data-lucide="layout-dashboard" class="nav-tab-icon"></i>
+        <span class="nav-tab-label">Home</span>
+      </button>
+      <button class="nav-tab-btn" data-view="routine" aria-label="Routine Schedule">
+        <i data-lucide="calendar-clock" class="nav-tab-icon"></i>
+        <span class="nav-tab-label">Routine</span>
+      </button>
+      <button class="nav-tab-btn" data-view="food" aria-label="Food & Nutrition">
+        <i data-lucide="utensils" class="nav-tab-icon"></i>
+        <span class="nav-tab-label">Food</span>
+      </button>
+      <button class="nav-tab-btn" data-view="progress" aria-label="Progress Analytics">
+        <i data-lucide="line-chart" class="nav-tab-icon"></i>
+        <span class="nav-tab-label">Progress</span>
+      </button>
+      <button class="nav-tab-btn" data-view="settings" aria-label="Settings">
+        <i data-lucide="settings-2" class="nav-tab-icon"></i>
+        <span class="nav-tab-label">Settings</span>
+      </button>
+    </nav>
+
+    <!-- ===================================================================
+         MODALS & ACTION SHEETS
+         =================================================================== -->
+
+    <!-- 1. Missed Task Accountability & Day Finalization Modal -->
+    <div class="modal-backdrop" id="modal-accountability" role="dialog" aria-modal="true" aria-labelledby="modal-acc-title">
+      <div class="modal-sheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="modal-sheet-header">
+          <h3 class="modal-sheet-title" id="modal-acc-title">Missed Task Accountability</h3>
+          <button class="icon-btn" id="btn-close-acc-modal" aria-label="Close modal"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-sheet-body">
+          <p style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:12px;">
+            Honesty builds integrity. If a habit was missed, record why, what you'll adjust tomorrow, and plan recovery.
+          </p>
+
+          <div class="form-group">
+            <label class="form-label" for="acc-task-select">Select Incomplete Task *</label>
+            <select id="acc-task-select" class="form-select">
+              <!-- Populated by JS -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="acc-status-select">Task Status *</label>
+            <select id="acc-status-select" class="form-select">
+              <option value="missed">Missed (Require Explanation)</option>
+              <option value="skipped">Skipped Intentionally (Planned Rest / Non-applicable)</option>
+              <option value="rescheduled">Rescheduled to Another Time / Day</option>
+            </select>
+          </div>
+
+          <div id="acc-missed-details-fields">
+            <div class="form-group">
+              <label class="form-label" for="acc-reason-category">Reason Category *</label>
+              <select id="acc-reason-category" class="form-select">
+                <option value="Office workload">Office workload (late shift, high demands)</option>
+                <option value="Unexpected personal work">Unexpected personal work</option>
+                <option value="Illness or physical discomfort">Illness or physical discomfort</option>
+                <option value="Poor sleep or fatigue">Poor sleep or fatigue</option>
+                <option value="Travel or commute">Travel or commute delays</option>
+                <option value="Lack of preparation">Lack of preparation</option>
+                <option value="Low motivation">Low motivation</option>
+                <option value="Forgot the task">Forgot the task</option>
+                <option value="Financial constraint">Financial constraint</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="acc-explanation">Written Explanation * (Required)</label>
+              <textarea id="acc-explanation" class="form-textarea" placeholder="What happened? Why did it happen? What specific change will you make tomorrow?"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Evidence / Photo Attachment (Optional, max 5 MB)</label>
+              <div class="image-upload-dropzone" id="acc-dropzone">
+                <i data-lucide="camera" class="text-emerald" style="width:28px;height:28px;margin-bottom:4px;"></i>
+                <div style="font-size:0.75rem; font-weight:600; color:var(--text-primary);">Tap to capture or upload screenshot</div>
+                <div style="font-size:0.68rem; color:var(--text-muted); margin-top:2px;">PNG, JPG, WebP up to 5 MB · Stored locally in IndexedDB</div>
+                <input type="file" id="acc-file-input" accept="image/*" class="hidden">
+              </div>
+
+              <!-- Preview box if image attached -->
+              <div class="image-preview-box hidden" id="acc-image-preview-box">
+                <img id="acc-preview-img" src="" alt="Evidence preview" class="image-preview-img">
+                <button type="button" class="image-remove-btn" id="btn-remove-acc-img" title="Remove attachment"><i data-lucide="trash-2"></i></button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="acc-recovery-action">Proposed Recovery Action</label>
+              <input type="text" id="acc-recovery-action" class="form-input" placeholder="e.g. Extra 30m weekend cardio, catch up on ML study Saturday">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="acc-new-target-date">Recovery Target Date</label>
+              <input type="date" id="acc-new-target-date" class="form-input">
+            </div>
+          </div>
+        </div>
+        <div class="modal-sheet-footer">
+          <button class="secondary-btn flex-1" id="btn-cancel-acc">Cancel</button>
+          <button class="primary-btn flex-1" id="btn-save-acc">Finalize Record</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Gym / Workout Session Logger Modal -->
+    <div class="modal-backdrop" id="modal-workout" role="dialog" aria-modal="true" aria-labelledby="modal-workout-title">
+      <div class="modal-sheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="modal-sheet-header">
+          <div>
+            <h3 class="modal-sheet-title" id="modal-workout-title">Upper Body A</h3>
+            <span class="card-subtitle" id="modal-workout-day">Monday · Gym Session</span>
+          </div>
+          <button class="icon-btn" id="btn-close-workout-modal" aria-label="Close"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-sheet-body">
+          <!-- Warmup info -->
+          <div class="warmup-box">
+            <strong>Warm-up & Safety Reminder:</strong> 5–7 mins shoulder mobility, band pull-aparts, light warm-up sets. Prioritize controlled tempo and full range of motion over ego lifting.
+          </div>
+
+          <div class="exercise-list" id="modal-exercise-list">
+            <!-- Exercise cards rendered by JS -->
+          </div>
+
+          <div class="form-group mt-4">
+            <label class="form-label" for="workout-session-notes">Workout Notes & Energy Level</label>
+            <textarea id="workout-session-notes" class="form-textarea" placeholder="How did you feel? Any joint soreness, energy highs, or PRs achieved?"></textarea>
+          </div>
+        </div>
+        <div class="modal-sheet-footer">
+          <button class="secondary-btn" id="btn-cancel-workout">Close</button>
+          <button class="primary-btn flex-1" id="btn-complete-workout-session">Save Workout Log</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. AI/ML Study Tracker Modal -->
+    <div class="modal-backdrop" id="modal-study" role="dialog" aria-modal="true" aria-labelledby="modal-study-title">
+      <div class="modal-sheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="modal-sheet-header">
+          <h3 class="modal-sheet-title" id="modal-study-title">AI/ML Learning Session</h3>
+          <button class="icon-btn" id="btn-close-study-modal" aria-label="Close"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-sheet-body">
+          <div class="timer-display" id="study-timer-display">00:00:00</div>
+          
+          <div class="timer-controls-row">
+            <button class="primary-btn" id="btn-timer-start"><i data-lucide="play"></i> Start</button>
+            <button class="secondary-btn" id="btn-timer-pause"><i data-lucide="pause"></i> Pause</button>
+            <button class="secondary-btn" id="btn-timer-reset"><i data-lucide="rotate-ccw"></i> Reset</button>
+          </div>
+
+          <div class="form-group mt-4">
+            <label class="form-label" for="study-topic-input">Learning Topic / Paper / Project *</label>
+            <input type="text" id="study-topic-input" class="form-input" placeholder="e.g. Transformer Attention mechanism, PyTorch Linear Regression">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="study-manual-minutes">Session Minutes (Timer or Manual)</label>
+            <input type="number" id="study-manual-minutes" class="form-input" value="60" min="0">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="study-notes-input">Key Takeaways & Code Experiments</label>
+            <textarea id="study-notes-input" class="form-textarea" placeholder="Summarize the core technical concepts mastered in this session..."></textarea>
+          </div>
+        </div>
+        <div class="modal-sheet-footer">
+          <button class="secondary-btn" id="btn-cancel-study">Cancel</button>
+          <button class="primary-btn flex-1" id="btn-save-study">Save Study Session</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Zero to One Reading Modal -->
+    <div class="modal-backdrop" id="modal-reading" role="dialog" aria-modal="true" aria-labelledby="modal-reading-title">
+      <div class="modal-sheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="modal-sheet-header">
+          <div>
+            <h3 class="modal-sheet-title" id="modal-reading-title">Zero to One Reading Log</h3>
+            <span class="card-subtitle">Daily 30 min habit & reflective application</span>
+          </div>
+          <button class="icon-btn" id="btn-close-reading-modal" aria-label="Close"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-sheet-body">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label class="form-label" for="reading-start-page">Starting Page</label>
+              <input type="number" id="reading-start-page" class="form-input" value="1" min="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reading-end-page">Ending Page</label>
+              <input type="number" id="reading-end-page" class="form-input" value="15" min="1">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reading-minutes-input">Reading Duration (minutes)</label>
+            <input type="number" id="reading-minutes-input" class="form-input" value="30" min="5">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reading-quote-input">Favorite Quote or Concept</label>
+            <input type="text" id="reading-quote-input" class="form-input" placeholder="e.g. 'What important truth do very few people agree with you on?'">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reading-takeaway-input">One Key Takeaway *</label>
+            <textarea id="reading-takeaway-input" class="form-textarea" placeholder="Core lesson from today's chapter..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reading-apply-input">Real-Life Application *</label>
+            <textarea id="reading-apply-input" class="form-textarea" placeholder="How can you apply this thinking to your career, coding, or life tomorrow?"></textarea>
+          </div>
+        </div>
+        <div class="modal-sheet-footer">
+          <button class="secondary-btn" id="btn-cancel-reading">Cancel</button>
+          <button class="primary-btn flex-1" id="btn-save-reading">Save Reading Record</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Month Calendar Picker Modal -->
+    <div class="modal-backdrop" id="modal-calendar" role="dialog" aria-modal="true" aria-labelledby="modal-cal-title">
+      <div class="modal-sheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="modal-sheet-header">
+          <button class="icon-btn" id="btn-cal-prev-month"><i data-lucide="chevron-left"></i></button>
+          <h3 class="modal-sheet-title" id="modal-cal-title">October 2026</h3>
+          <button class="icon-btn" id="btn-cal-next-month"><i data-lucide="chevron-right"></i></button>
+        </div>
+        <div class="modal-sheet-body">
+          <div class="calendar-grid">
+            <div class="cal-day-header">SUN</div>
+            <div class="cal-day-header">MON</div>
+            <div class="cal-day-header">TUE</div>
+            <div class="cal-day-header">WED</div>
+            <div class="cal-day-header">THU</div>
+            <div class="cal-day-header">FRI</div>
+            <div class="cal-day-header">SAT</div>
+          </div>
+          <div class="calendar-grid" id="modal-calendar-days">
+            <!-- Day cells rendered by JS -->
+          </div>
+          <div style="display:flex; justify-content:center; gap:16px; margin-top:16px; font-size:0.68rem; color:var(--text-muted);">
+            <span style="display:flex;align-items:center;gap:4px;"><span class="cal-dot green"></span> ≥ 80%</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span class="cal-dot amber"></span> 40–79%</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span class="cal-dot rose"></span> &lt; 40%</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span class="cal-dot gray"></span> Untracked</span>
+          </div>
+        </div>
+        <div class="modal-sheet-footer">
+          <button class="secondary-btn w-full" id="btn-close-calendar">Close Calendar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Custom Schedule Item Modal -->
+    <div class="modal-backdrop" id="modal-schedule-item" role="dialog" aria-modal="true">
+      <div class="modal-sheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="modal-sheet-header">
+          <h3 class="modal-sheet-title">Add Schedule Activity</h3>
+          <button class="icon-btn" id="btn-close-sched-modal"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-sheet-body">
+          <div class="form-group">
+            <label class="form-label" for="sched-title-input">Activity Name *</label>
+            <input type="text" id="sched-title-input" class="form-input" placeholder="e.g. 15-minute meditation, foam rolling">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sched-time-input">Scheduled Time *</label>
+            <input type="time" id="sched-time-input" class="form-input" value="11:15">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sched-desc-input">Description / Notes</label>
+            <input type="text" id="sched-desc-input" class="form-input" placeholder="Optional instructions or details">
+          </div>
+        </div>
+        <div class="modal-sheet-footer">
+          <button class="secondary-btn" id="btn-cancel-sched">Cancel</button>
+          <button class="primary-btn flex-1" id="btn-save-sched-item">Add to Timeline</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Custom Grocery Item Modal -->
+    <div class="modal-backdrop" id="modal-grocery-item" role="dialog" aria-modal="true">
+      <div class="modal-sheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="modal-sheet-header">
+          <h3 class="modal-sheet-title">Add Grocery Item</h3>
+          <button class="icon-btn" id="btn-close-grocery-modal"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-sheet-body">
+          <div class="form-group">
+            <label class="form-label" for="groc-name-input">Item Name *</label>
+            <input type="text" id="groc-name-input" class="form-input" placeholder="e.g. Greek yogurt, Chia seeds">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="groc-cat-select">Category *</label>
+            <select id="groc-cat-select" class="form-select">
+              <option value="protein">Protein</option>
+              <option value="grains">Grains & Staples</option>
+              <option value="vegetables">Vegetables</option>
+              <option value="fruits">Fruits</option>
+              <option value="dairy">Dairy</option>
+              <option value="pantry">Pantry & Snacks</option>
+            </select>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label class="form-label" for="groc-qty-input">Quantity</label>
+              <input type="text" id="groc-qty-input" class="form-input" placeholder="e.g. 500 g, 1 dozen">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="groc-price-input">Est. Price (₹)</label>
+              <input type="number" id="groc-price-input" class="form-input" placeholder="e.g. 150">
+            </div>
+          </div>
+        </div>
+        <div class="modal-sheet-footer">
+          <button class="secondary-btn" id="btn-cancel-grocery">Cancel</button>
+          <button class="primary-btn flex-1" id="btn-save-grocery-item">Add Grocery Item</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. Image Lightbox Modal for Evidence Photos -->
+    <div class="modal-backdrop" id="modal-lightbox" role="dialog" aria-modal="true">
+      <div style="max-width:90%; max-height:85vh; position:relative; display:flex; flex-direction:column; align-items:center;">
+        <button class="icon-btn" id="btn-close-lightbox" style="position:absolute; top:-40px; right:0; color:#fff;" aria-label="Close"><i data-lucide="x"></i></button>
+        <img id="lightbox-img" src="" alt="Evidence Full" style="max-width:100%; max-height:75vh; border-radius:12px; object-fit:contain; box-shadow:0 0 30px rgba(0,0,0,0.8);">
+        <div id="lightbox-caption" style="color:#f8fafc; font-size:0.8rem; margin-top:10px; text-align:center;"></div>
+      </div>
+    </div>
+
+    <!-- 9. Toast Container -->
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  </div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
